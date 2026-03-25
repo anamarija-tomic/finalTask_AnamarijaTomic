@@ -33,39 +33,41 @@ Launch URL: [https://www.saucedemo.com/](https://www.saucedemo.com/)
 
 ## Project Structure
 
+```plaintext
 finalTask_AnamarijaTomic/  
 ├─ src/  
-│ ├─ configs/  
-│ │ └─ wdio.conf.js  
-│ ├─ data/  
-│ │ └─ users.js  
-│ ├─ po/  
-│ │ └─ pages/  
-│ │ ├─ LoginPage.js  
-│ │ ├─ InventoryPage.js  
-│ │ ├─ CartPage.js  
-│ │ ├─ CheckoutStepOnePage.js  
-│ │ ├─ CheckoutStepTwoPage.js  
-│ │ └─ CheckoutCompletePage.js  
-│ └─ tests/  
-│ ├─ uc1.tests.js  
-│ └─ uc2.tests.js  
+│  ├─ configs/  
+│  │  └─ wdio.conf.js  
+│  ├─ data/  
+│  │  └─ users.js  
+│  ├─ po/  
+│  │  └─ pages/  
+│  │     ├─ LoginPage.js  
+│  │     ├─ InventoryPage.js  
+│  │     ├─ CartPage.js  
+│  │     ├─ CheckoutStepOnePage.js  
+│  │     ├─ CheckoutStepTwoPage.js  
+│  │     └─ CheckoutCompletePage.js  
+│  └─ tests/  
+│     ├─ uc1.tests.js  
+│     └─ uc2.tests.js  
 ├─ package.json  
 └─ README.md
+```
 
 ## How to Run Tests
 
 1. Install dependencies:
-   npm install
+   `npm install`
 
 2. Run tests in parallel on all configured browsers:
-   npm test
+   `npm test`
 
 3. Generate and open Allure report:
-   npm run report
+   `npm run report`
 
 4. Run tests and automatically generate Allure report:
-   npm run test:report
+   `npm run test:report`
 
 ## Additional Notes
 

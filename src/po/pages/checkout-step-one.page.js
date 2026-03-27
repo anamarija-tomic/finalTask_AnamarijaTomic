@@ -1,14 +1,5 @@
 class CheckoutStepOnePage {
-  async waitForPageLoad() {
-    await $("[data-test='checkout-info-container']").waitForDisplayed();
-  }
-
-  async fillForm(firstName, lastName, zip) {
-    await $("[data-test='firstName']").setValue(firstName);
-    await $("[data-test='lastName']").setValue(lastName);
-    await $("[data-test='postalCode']").setValue(zip);
-  }
-get firstNameInput() {
+  get firstNameInput() {
     return $("[data-test='firstName']");
   }
 
@@ -20,8 +11,26 @@ get firstNameInput() {
     return $("[data-test='postalCode']");
   }
 
+  get continueButton() {
+    return $("[data-test='continue']");
+  }
+
+  get formContainer() {
+    return $("[data-test='checkout-info-container']");
+  }
+
+  async waitForPageLoad() {
+    await this.formContainer.waitForDisplayed();
+  }
+
+  async fillForm({ firstName, lastName, postalCode }) {
+    await this.firstNameInput.setValue(firstName);
+    await this.lastNameInput.setValue(lastName);
+    await this.postalCodeInput.setValue(postalCode);
+  }
+
   async continueCheckout() {
-    await $("[data-test='continue']").click();
+    await this.continueButton.click();
   }
 }
 

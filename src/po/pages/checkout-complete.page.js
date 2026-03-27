@@ -1,10 +1,14 @@
 class CheckoutCompletePage {
-  async waitForPageLoad() {
-    await $("[data-test='checkout-complete-container']").waitForDisplayed();
-  }
-
   get successMessage() {
     return $("[data-test='complete-header']");
+  }
+
+  get completeContainer() {
+    return $("[data-test='checkout-complete-container']");
+  }
+
+  async waitForPageLoad() {
+    await this.completeContainer.waitForDisplayed();
   }
 }
 

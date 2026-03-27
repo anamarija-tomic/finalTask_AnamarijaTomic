@@ -1,23 +1,27 @@
+import { getTexts } from '../../helpers/textHelpers.js';
 class CheckoutStepTwoPage {
-  async waitForPageLoad() {
-    await $("[data-test='checkout-summary-container']").waitForDisplayed();
-  }
-
   get finishButton() {
     return $("[data-test='finish']");
   }
 
+  get summaryContainer() {
+    return $("[data-test='checkout-summary-container']");
+  }
+
+  get itemNames() {
+    return $$("[data-test='inventory-item-name']");
+  }
+
+  async waitForPageLoad() {
+    await this.summaryContainer.waitForDisplayed();
+  }
+
   async finishCheckout() {
-    await $("[data-test='finish']").click();
+    await this.finishButton.click();
   }
 
   async getItemNames() {
-    const items = await $$("[data-test='inventory-item-name']");
-    const names = [];
-    for (const item of items) {
-      names.push(await item.getText());
-    }
-    return names;
+    return getTexts(await this.itemNames);
   }
 }
 

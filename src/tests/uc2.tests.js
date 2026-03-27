@@ -4,6 +4,8 @@ const users = require('../data/users');
 const loginPage = new LoginPage();
 const inventoryPage = new InventoryPage();
 
+const ERROR_MESSAGE = 'Epic sadface: Sorry, this user has been locked out.';
+
 const allure = require('@wdio/allure-reporter').default;
 
 describe('UC-2 Data Driven Login', () => {
@@ -13,12 +15,10 @@ describe('UC-2 Data Driven Login', () => {
       : `should fail login with ${user.username}`;
 
     it(title, async () => {
-      // Given user is on the login page
       await allure.step('Open login page', async () => {
         await loginPage.open();
       });
 
-      // When user attempts to login with provided credentials
       await allure.step(
         `Attempt login with user: ${user.username}`,
         async () => {
@@ -26,24 +26,19 @@ describe('UC-2 Data Driven Login', () => {
         },
       );
 
-      // Then user should see expected result based on credentials
       if (user.shouldPass) {
         await allure.step(
           'Verify successful login and redirection',
           async () => {
             await inventoryPage.waitForPageLoad();
-
-            const url = await browser.getUrl();
-            await expect(url).toContain('/inventory.html');
+            await expect(await browser.getUrl()).toContain('/inventory.html');
             await expect(inventoryPage.inventoryContainer).toBeDisplayed();
           },
         );
       } else {
         await allure.step('Verify error message is displayed', async () => {
           await expect(loginPage.errorMessage).toBeDisplayed();
-          await expect(loginPage.errorMessage).toHaveText(
-            'Epic sadface: Sorry, this user has been locked out.',
-          );
+          await expect(loginPage.errorMessage).toHaveText(ERROR_MESSAGE);
         });
       }
     });

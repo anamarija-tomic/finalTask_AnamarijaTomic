@@ -37,9 +37,11 @@ Launch URL: [https://www.saucedemo.com/](https://www.saucedemo.com/)
 finalTask_AnamarijaTomic/  
 ├─ src/  
 │  ├─ configs/  
-│  │  └─ wdio.conf.js  
+│  │  └─ wdio.conf.js
 │  ├─ data/  
 │  │  └─ users.js  
+│  ├─ helpers
+│  │  └─ textHelpers.js
 │  ├─ po/  
 │  │  └─ pages/  
 │  │     ├─ LoginPage.js  

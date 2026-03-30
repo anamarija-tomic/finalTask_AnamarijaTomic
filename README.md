@@ -34,26 +34,30 @@ Launch URL: [https://www.saucedemo.com/](https://www.saucedemo.com/)
 ## Project Structure
 
 ```plaintext
-finalTask_AnamarijaTomic/  
-├─ src/  
-│  ├─ configs/  
+finalTask_AnamarijaTomic/
+├─ src/
+│  ├─ configs/
 │  │  └─ wdio.conf.js
-│  ├─ data/  
-│  │  └─ users.js  
+│  ├─ data/
+│  │  └─ users.js
 │  ├─ helpers
 │  │  └─ textHelpers.js
-│  ├─ po/  
-│  │  └─ pages/  
-│  │     ├─ LoginPage.js  
-│  │     ├─ InventoryPage.js  
-│  │     ├─ CartPage.js  
-│  │     ├─ CheckoutStepOnePage.js  
-│  │     ├─ CheckoutStepTwoPage.js  
-│  │     └─ CheckoutCompletePage.js  
-│  └─ tests/  
-│     ├─ uc1.tests.js  
-│     └─ uc2.tests.js  
-├─ package.json  
+│  ├─ po/
+│  │  └─ pages/
+│  │     ├─ cart.page.js
+│  │     ├─ checkout-complete.page.js
+│  │     ├─ checkout-step-one.page.js
+│  │     ├─ checkout-step-two.page.js
+│  │     ├─ index.js
+│  │     ├─ inventory.page.js
+│  │     └─ login.page.js
+│  └─ tests/
+│     ├─ uc1.tests.js
+│     └─ uc2.tests.js
+├─ .gitignore
+├─ package.json
+├─ package-lock.json
+├─ package.json
 └─ README.md
 ```
 

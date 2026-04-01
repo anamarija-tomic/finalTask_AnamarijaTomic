@@ -1,4 +1,4 @@
-import { getTexts } from '../../helpers/textHelpers.js';
+const { getTexts } = require('../../helpers/textHelpers');
 class CartPage {
   get checkoutButton() {
     return $("[data-test='checkout']");

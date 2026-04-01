@@ -7,12 +7,14 @@
   "scripts": {
     "test": "rimraf allure-results && wdio run ./src/configs/wdio.conf.js",
     "report": "npx allure generate allure-results --clean && npx allure open",
-    "test:report": "npm test && npm run report"  },
+    "test:report": "npm test && npm run report"
+  },
   "keywords": [],
   "author": "Anamarija Tomić",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@wdio/allure-reporter": "^9.27.0",
     "@wdio/cli": "^9.26.1",
     "@wdio/local-runner": "^9.26.1",

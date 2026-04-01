@@ -1,4 +1,4 @@
-import { getTexts } from '../../helpers/textHelpers.js';
+const { getTexts } = require('../../helpers/textHelpers');
 class CheckoutStepTwoPage {
   get finishButton() {
     return $("[data-test='finish']");

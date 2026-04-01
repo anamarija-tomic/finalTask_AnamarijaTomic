@@ -1,4 +1,10 @@
-class CheckoutStepOnePage {
+const BasePage = require('./base.page');
+
+class CheckoutStepOnePage extends BasePage {
+  get container() {
+    return $("[data-test='checkout-info-container']");
+  }
+
   get firstNameInput() {
     return $("[data-test='firstName']");
   }
@@ -13,14 +19,6 @@ class CheckoutStepOnePage {
 
   get continueButton() {
     return $("[data-test='continue']");
-  }
-
-  get formContainer() {
-    return $("[data-test='checkout-info-container']");
-  }
-
-  async waitForPageLoad() {
-    await this.formContainer.waitForDisplayed();
   }
 
   async fillForm({ firstName, lastName, postalCode }) {

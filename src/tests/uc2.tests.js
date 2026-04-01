@@ -32,7 +32,6 @@ describe('UC-2 Data Driven Login', () => {
           async () => {
             await inventoryPage.waitForPageLoad();
             await expect(await browser.getUrl()).toContain('/inventory.html');
-            await expect(inventoryPage.inventoryContainer).toBeDisplayed();
           },
         );
       } else {

@@ -44,6 +44,7 @@ finalTask_AnamarijaTomic/
 │  │  └─ textHelpers.js
 │  ├─ po/
 │  │  └─ pages/
+│  │     ├─ base.page.js
 │  │     ├─ cart.page.js
 │  │     ├─ checkout-complete.page.js
 │  │     ├─ checkout-step-one.page.js

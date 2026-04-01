@@ -1,19 +1,16 @@
 const { getTexts } = require('../../helpers/textHelpers');
-class CartPage {
+const BasePage = require('./base.page');
+
+class CartPage extends BasePage {
+  get container() {
+    return $("[data-test='cart-contents-container']");
+  }
   get checkoutButton() {
     return $("[data-test='checkout']");
   }
 
-  get cartContainer() {
-    return $("[data-test='cart-contents-container']");
-  }
-
   get cartItems() {
     return $$("[data-test='inventory-item-name']");
-  }
-
-  async waitForPageLoad() {
-    await this.cartContainer.waitForDisplayed();
   }
 
   async getCartItemsNames() {

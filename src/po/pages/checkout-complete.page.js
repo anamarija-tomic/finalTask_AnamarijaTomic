@@ -1,14 +1,12 @@
-class CheckoutCompletePage {
-  get successMessage() {
-    return $("[data-test='complete-header']");
-  }
+const BasePage = require('./base.page');
 
-  get completeContainer() {
+class CheckoutCompletePage extends BasePage {
+  get container() {
     return $("[data-test='checkout-complete-container']");
   }
 
-  async waitForPageLoad() {
-    await this.completeContainer.waitForDisplayed();
+  get successMessage() {
+    return $("[data-test='complete-header']");
   }
 }
 

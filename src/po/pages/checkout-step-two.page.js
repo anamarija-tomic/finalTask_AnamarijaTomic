@@ -1,19 +1,17 @@
 const { getTexts } = require('../../helpers/textHelpers');
-class CheckoutStepTwoPage {
+const BasePage = require('./base.page');
+
+class CheckoutStepTwoPage extends BasePage {
+  get container() {
+    return $("[data-test='checkout-summary-container']");
+  }
+
   get finishButton() {
     return $("[data-test='finish']");
   }
 
-  get summaryContainer() {
-    return $("[data-test='checkout-summary-container']");
-  }
-
   get itemNames() {
     return $$("[data-test='inventory-item-name']");
-  }
-
-  async waitForPageLoad() {
-    await this.summaryContainer.waitForDisplayed();
   }
 
   async finishCheckout() {

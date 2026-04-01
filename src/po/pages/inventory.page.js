@@ -1,5 +1,7 @@
-class InventoryPage {
-  get inventoryContainer() {
+const BasePage = require('./base.page');
+
+class InventoryPage extends BasePage {
+  get container() {
     return $("[data-test='inventory-container']");
   }
 
@@ -23,10 +25,6 @@ class InventoryPage {
   getRemoveButton(productName) {
     const dataTest = `remove-${this.formatProductName(productName)}`;
     return $(`[data-test='${dataTest}']`);
-  }
-
-  async waitForPageLoad() {
-    await this.inventoryContainer.waitForDisplayed();
   }
 
   async addProductToCart(productName) {

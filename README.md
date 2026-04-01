@@ -55,7 +55,6 @@ finalTask_AnamarijaTomic/
 │     ├─ uc1.tests.js
 │     └─ uc2.tests.js
 ├─ .gitignore
-├─ package.json
 ├─ package-lock.json
 ├─ package.json
 └─ README.md

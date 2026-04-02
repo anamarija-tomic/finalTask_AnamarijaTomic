@@ -46,15 +46,16 @@ finalTask_AnamarijaTomic/
 │  │  ├─ components/
 │  │  │  └─ common/
 │  │  │     └─ header.component.js
-│  │  └─ pages/
-│  │     ├─ base.page.js
-│  │     ├─ cart.page.js
-│  │     ├─ checkout-complete.page.js
-│  │     ├─ checkout-step-one.page.js
-│  │     ├─ checkout-step-two.page.js
-│  │     ├─ index.js
-│  │     ├─ inventory.page.js
-│  │     └─ login.page.js
+│  │  ├─ pages/
+│  │  │  ├─ base.page.js
+│  │  │  ├─ cart.page.js
+│  │  │  ├─ checkout-complete.page.js
+│  │  │  ├─ checkout-step-one.page.js
+│  │  │  ├─ checkout-step-two.page.js
+│  │  │  ├─ index.js
+│  │  │  ├─ inventory.page.js
+│  │  │  └─ login.page.js
+│  │  └─ index.js
 │  └─ tests/
 │     ├─ uc1.tests.js
 │     └─ uc2.tests.js

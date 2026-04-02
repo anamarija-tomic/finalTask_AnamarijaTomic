@@ -1,19 +1,5 @@
-const {
-  LoginPage,
-  InventoryPage,
-  CartPage,
-  CheckoutStepOnePage,
-  CheckoutStepTwoPage,
-  CheckoutCompletePage,
-} = require('../po/pages');
+const { pages } = require('../po');
 const users = require('../data/users');
-
-const loginPage = new LoginPage();
-const inventoryPage = new InventoryPage();
-const cartPage = new CartPage();
-const checkoutStepOnePage = new CheckoutStepOnePage();
-const checkoutStepTwoPage = new CheckoutStepTwoPage();
-const checkoutCompletePage = new CheckoutCompletePage();
 
 const allure = require('@wdio/allure-reporter').default;
 
@@ -26,19 +12,21 @@ const SUCCESS_MESSAGE = 'Thank you for your order!';
 
 describe('UC-1 Checkout Flow', () => {
   beforeEach(async () => {
-    await loginPage.open();
+    await pages('login').open();
     await browser.execute(() => localStorage.clear());
     await browser.execute(() => sessionStorage.clear());
 
     await allure.step(
       'Login as standard user and go to inventory page',
       async () => {
-        await loginPage.login(
+        await pages('login').login(
           users.standard_user.username,
           users.standard_user.password,
         );
-        await inventoryPage.waitForPageLoad();
-        await expect(await browser.getUrl()).toContain(inventoryPage.pageUrl);
+        await pages('inventory').waitForPageLoad();
+        await expect(await browser.getUrl()).toContain(
+          pages('inventory').pageUrl,
+        );
       },
     );
   });
@@ -46,76 +34,78 @@ describe('UC-1 Checkout Flow', () => {
   productsToTest.forEach((productName) => {
     it(`should complete checkout flow with product: ${productName}`, async () => {
       await allure.step(`Add product to cart: ${productName}`, async () => {
-        await inventoryPage.addProductToCart(productName);
+        await pages('inventory').addProductToCart(productName);
       });
 
       await allure.step(
         'Validate cart state after adding product',
         async () => {
           await expect(
-            inventoryPage.getRemoveButton(productName),
+            pages('inventory').getRemoveButton(productName),
           ).toBeDisplayed();
-          await expect(inventoryPage.header.cartBadge).toHaveText('1');
+          await expect(pages('inventory').header.cartBadge).toHaveText('1');
         },
       );
 
       await allure.step('Navigate to cart', async () => {
-        await inventoryPage.header.goToCart();
-        await cartPage.waitForPageLoad();
-        await expect(await browser.getUrl()).toContain(cartPage.pageUrl);
-        await expect(cartPage.header.cartBadge).toHaveText('1');
+        await pages('inventory').header.goToCart();
+        await pages('cart').waitForPageLoad();
+        await expect(await browser.getUrl()).toContain(pages('cart').pageUrl);
+        await expect(pages('cart').header.cartBadge).toHaveText('1');
       });
 
       await allure.step('Validate product exists in cart', async () => {
-        const cartItems = await cartPage.getCartItemsNames();
+        const cartItems = await pages('cart').getCartItemsNames();
         await expect(cartItems).toContain(productName);
         await expect(cartItems.length).toBe(1);
       });
 
       await allure.step('Proceed to checkout (Step 1)', async () => {
-        await expect(cartPage.checkoutButton).toBeDisplayed();
-        await cartPage.goToCheckout();
-        await checkoutStepOnePage.waitForPageLoad();
+        await expect(pages('cart').checkoutButton).toBeDisplayed();
+        await pages('cart').goToCheckout();
+        await pages('checkoutStepOne').waitForPageLoad();
         await expect(await browser.getUrl()).toContain(
-          checkoutStepOnePage.pageUrl,
+          pages('checkoutStepOne').pageUrl,
         );
-        await expect(checkoutStepOnePage.header.cartBadge).toHaveText('1');
+        await expect(pages('checkoutStepOne').header.cartBadge).toHaveText('1');
       });
 
       await allure.step('Validate checkout form is displayed', async () => {
-        await expect(checkoutStepOnePage.firstNameInput).toBeDisplayed();
-        await expect(checkoutStepOnePage.lastNameInput).toBeDisplayed();
-        await expect(checkoutStepOnePage.postalCodeInput).toBeDisplayed();
+        await expect(pages('checkoutStepOne').firstNameInput).toBeDisplayed();
+        await expect(pages('checkoutStepOne').lastNameInput).toBeDisplayed();
+        await expect(pages('checkoutStepOne').postalCodeInput).toBeDisplayed();
       });
 
       await allure.step('Fill checkout form and continue', async () => {
-        await checkoutStepOnePage.fillForm(users.standard_user.checkout);
-        await checkoutStepOnePage.continueCheckout();
+        await pages('checkoutStepOne').fillForm(users.standard_user.checkout);
+        await pages('checkoutStepOne').continueCheckout();
       });
 
       await allure.step('Validate product in checkout overview', async () => {
-        await checkoutStepTwoPage.waitForPageLoad();
+        await pages('checkoutStepTwo').waitForPageLoad();
         await expect(await browser.getUrl()).toContain(
-          checkoutStepTwoPage.pageUrl,
+          pages('checkoutStepTwo').pageUrl,
         );
-        await expect(checkoutStepTwoPage.header.cartBadge).toHaveText('1');
-        const overviewItems = await checkoutStepTwoPage.getItemNames();
+        await expect(pages('checkoutStepTwo').header.cartBadge).toHaveText('1');
+        const overviewItems = await pages('checkoutStepTwo').getItemNames();
         await expect(overviewItems).toContain(productName);
       });
 
       await allure.step('Finish checkout', async () => {
-        await expect(checkoutStepTwoPage.finishButton).toBeDisplayed();
-        await checkoutStepTwoPage.finishCheckout();
+        await expect(pages('checkoutStepTwo').finishButton).toBeDisplayed();
+        await pages('checkoutStepTwo').finishCheckout();
       });
 
       await allure.step('Validate order completion', async () => {
-        await checkoutCompletePage.waitForPageLoad();
+        await pages('checkoutComplete').waitForPageLoad();
         await expect(await browser.getUrl()).toContain(
-          checkoutCompletePage.pageUrl,
+          pages('checkoutComplete').pageUrl,
         );
-        await expect(checkoutCompletePage.header.cartBadge).not.toBeDisplayed();
-        await expect(checkoutCompletePage.successMessage).toBeDisplayed();
-        await expect(checkoutCompletePage.successMessage).toHaveText(
+        await expect(
+          pages('checkoutComplete').header.cartBadge,
+        ).not.toBeDisplayed();
+        await expect(pages('checkoutComplete').successMessage).toBeDisplayed();
+        await expect(pages('checkoutComplete').successMessage).toHaveText(
           SUCCESS_MESSAGE,
         );
       });
@@ -127,25 +117,29 @@ describe('UC-1 Checkout Flow', () => {
       const product = productsToTest[i];
 
       await allure.step(`Add product to cart: ${product}`, async () => {
-        await inventoryPage.addProductToCart(product);
+        await pages('inventory').addProductToCart(product);
       });
       await allure.step(`Validate cart after adding: ${product}`, async () => {
-        await expect(inventoryPage.getRemoveButton(product)).toBeDisplayed();
-        await expect(inventoryPage.header.cartBadge).toHaveText(String(i + 1));
+        await expect(
+          pages('inventory').getRemoveButton(product),
+        ).toBeDisplayed();
+        await expect(pages('inventory').header.cartBadge).toHaveText(
+          String(i + 1),
+        );
       });
     }
 
     await allure.step('Navigate to cart', async () => {
-      await inventoryPage.header.goToCart();
-      await cartPage.waitForPageLoad();
-      await expect(await browser.getUrl()).toContain(cartPage.pageUrl);
-      await expect(cartPage.header.cartBadge).toHaveText(
+      await pages('inventory').header.goToCart();
+      await pages('cart').waitForPageLoad();
+      await expect(await browser.getUrl()).toContain(pages('cart').pageUrl);
+      await expect(pages('cart').header.cartBadge).toHaveText(
         String(productsToTest.length),
       );
     });
 
     await allure.step('Validate all products in cart', async () => {
-      const cartItems = await cartPage.getCartItemsNames();
+      const cartItems = await pages('cart').getCartItemsNames();
       for (const product of productsToTest) {
         await expect(cartItems).toContain(product);
       }
@@ -153,55 +147,57 @@ describe('UC-1 Checkout Flow', () => {
     });
 
     await allure.step('Proceed to checkout (Step 1)', async () => {
-      await expect(cartPage.checkoutButton).toBeDisplayed();
-      await cartPage.goToCheckout();
-      await checkoutStepOnePage.waitForPageLoad();
+      await expect(pages('cart').checkoutButton).toBeDisplayed();
+      await pages('cart').goToCheckout();
+      await pages('checkoutStepOne').waitForPageLoad();
       await expect(await browser.getUrl()).toContain(
-        checkoutStepOnePage.pageUrl,
+        pages('checkoutStepOne').pageUrl,
       );
-      await expect(checkoutStepOnePage.header.cartBadge).toHaveText(
+      await expect(pages('checkoutStepOne').header.cartBadge).toHaveText(
         String(productsToTest.length),
       );
     });
 
     await allure.step('Validate checkout form is displayed', async () => {
-      await expect(checkoutStepOnePage.firstNameInput).toBeDisplayed();
-      await expect(checkoutStepOnePage.lastNameInput).toBeDisplayed();
-      await expect(checkoutStepOnePage.postalCodeInput).toBeDisplayed();
+      await expect(pages('checkoutStepOne').firstNameInput).toBeDisplayed();
+      await expect(pages('checkoutStepOne').lastNameInput).toBeDisplayed();
+      await expect(pages('checkoutStepOne').postalCodeInput).toBeDisplayed();
     });
 
     await allure.step('Fill checkout form and continue', async () => {
-      await checkoutStepOnePage.fillForm(users.standard_user.checkout);
-      await checkoutStepOnePage.continueCheckout();
+      await pages('checkoutStepOne').fillForm(users.standard_user.checkout);
+      await pages('checkoutStepOne').continueCheckout();
     });
 
     await allure.step('Validate products in checkout overview', async () => {
-      await checkoutStepTwoPage.waitForPageLoad();
+      await pages('checkoutStepTwo').waitForPageLoad();
       await expect(await browser.getUrl()).toContain(
-        checkoutStepTwoPage.pageUrl,
+        pages('checkoutStepTwo').pageUrl,
       );
-      await expect(checkoutStepTwoPage.header.cartBadge).toHaveText(
+      await expect(pages('checkoutStepTwo').header.cartBadge).toHaveText(
         String(productsToTest.length),
       );
-      const overviewItems = await checkoutStepTwoPage.getItemNames();
+      const overviewItems = await pages('checkoutStepTwo').getItemNames();
       await expect(overviewItems).toEqual(
         expect.arrayContaining(productsToTest),
       );
     });
 
     await allure.step('Finish checkout', async () => {
-      await expect(checkoutStepTwoPage.finishButton).toBeDisplayed();
-      await checkoutStepTwoPage.finishCheckout();
+      await expect(pages('checkoutStepTwo').finishButton).toBeDisplayed();
+      await pages('checkoutStepTwo').finishCheckout();
     });
 
     await allure.step('Validate order completion', async () => {
-      await checkoutCompletePage.waitForPageLoad();
+      await pages('checkoutComplete').waitForPageLoad();
       await expect(await browser.getUrl()).toContain(
-        checkoutCompletePage.pageUrl,
+        pages('checkoutComplete').pageUrl,
       );
-      await expect(checkoutCompletePage.header.cartBadge).not.toBeDisplayed();
-      await expect(checkoutCompletePage.successMessage).toBeDisplayed();
-      await expect(checkoutCompletePage.successMessage).toHaveText(
+      await expect(
+        pages('checkoutComplete').header.cartBadge,
+      ).not.toBeDisplayed();
+      await expect(pages('checkoutComplete').successMessage).toBeDisplayed();
+      await expect(pages('checkoutComplete').successMessage).toHaveText(
         SUCCESS_MESSAGE,
       );
     });

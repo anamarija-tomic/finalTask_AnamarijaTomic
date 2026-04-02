@@ -1,8 +1,5 @@
-const { LoginPage, InventoryPage } = require('../po/pages');
+const { pages } = require('../po');
 const users = require('../data/users');
-
-const loginPage = new LoginPage();
-const inventoryPage = new InventoryPage();
 
 const ERROR_MESSAGE = 'Epic sadface: Sorry, this user has been locked out.';
 
@@ -16,13 +13,13 @@ describe('UC-2 Data Driven Login', () => {
 
     it(title, async () => {
       await allure.step('Open login page', async () => {
-        await loginPage.open();
+        await pages('login').open();
       });
 
       await allure.step(
         `Attempt login with user: ${user.username}`,
         async () => {
-          await loginPage.login(user.username, user.password);
+          await pages('login').login(user.username, user.password);
         },
       );
 
@@ -30,16 +27,16 @@ describe('UC-2 Data Driven Login', () => {
         await allure.step(
           'Verify successful login and redirection',
           async () => {
-            await inventoryPage.waitForPageLoad();
+            await pages('inventory').waitForPageLoad();
             await expect(await browser.getUrl()).toContain(
-              inventoryPage.pageUrl,
+              pages('inventory').pageUrl,
             );
           },
         );
       } else {
         await allure.step('Verify error message is displayed', async () => {
-          await expect(loginPage.errorMessage).toBeDisplayed();
-          await expect(loginPage.errorMessage).toHaveText(ERROR_MESSAGE);
+          await expect(pages('login').errorMessage).toBeDisplayed();
+          await expect(pages('login').errorMessage).toHaveText(ERROR_MESSAGE);
         });
       }
     });

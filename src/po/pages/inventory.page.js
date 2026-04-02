@@ -1,16 +1,12 @@
 const BasePage = require('./base.page');
 
 class InventoryPage extends BasePage {
+  constructor() {
+    super('/inventory.html');
+  }
+
   get container() {
     return $("[data-test='inventory-container']");
-  }
-
-  get cartBadge() {
-    return $("[data-test='shopping-cart-badge']");
-  }
-
-  get cartLink() {
-    return $("[data-test='shopping-cart-link']");
   }
 
   formatProductName(name) {
@@ -29,10 +25,6 @@ class InventoryPage extends BasePage {
 
   async addProductToCart(productName) {
     await this.getAddToCartButton(productName).click();
-  }
-
-  async goToCart() {
-    await this.cartLink.click();
   }
 }
 

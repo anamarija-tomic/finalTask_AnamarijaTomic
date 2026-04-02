@@ -2,8 +2,6 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES6",
-    "checkJs": true,
-    "baseUrl": ".",
     "types": ["node", "@wdio/globals/types", "webdriverio", "mocha"],
     "paths": {
       "*": ["./*"]

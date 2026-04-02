@@ -2,9 +2,14 @@ const { getTexts } = require('../../helpers/textHelpers');
 const BasePage = require('./base.page');
 
 class CartPage extends BasePage {
+  constructor() {
+    super('/cart.html');
+  }
+
   get container() {
     return $("[data-test='cart-contents-container']");
   }
+
   get checkoutButton() {
     return $("[data-test='checkout']");
   }

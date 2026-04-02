@@ -2,6 +2,10 @@ const { getTexts } = require('../../helpers/textHelpers');
 const BasePage = require('./base.page');
 
 class CheckoutStepTwoPage extends BasePage {
+  constructor() {
+    super('/checkout-step-two.html');
+  }
+
   get container() {
     return $("[data-test='checkout-summary-container']");
   }

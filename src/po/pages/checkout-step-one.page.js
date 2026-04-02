@@ -1,6 +1,10 @@
 const BasePage = require('./base.page');
 
 class CheckoutStepOnePage extends BasePage {
+  constructor() {
+    super('/checkout-step-one.html');
+  }
+
   get container() {
     return $("[data-test='checkout-info-container']");
   }

@@ -43,6 +43,9 @@ finalTask_AnamarijaTomic/
 │  ├─ helpers
 │  │  └─ textHelpers.js
 │  ├─ po/
+│  │  ├─ components/
+│  │  │  └─ common/
+│  │  │     └─ header.component.js
 │  │  └─ pages/
 │  │     ├─ base.page.js
 │  │     ├─ cart.page.js
